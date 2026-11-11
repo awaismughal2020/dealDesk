@@ -1,0 +1,32 @@
+# Install with: docker compose --profile tools run --rm --no-deps dev pre-commit install  (or `pre-commit install` locally)
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.4
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: check-merge-conflict
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+        exclude: ^deploy/helm/.*/templates/
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy --strict (in Docker)
+        entry: make typecheck
+        language: system
+        pass_filenames: false
+        types: [python]

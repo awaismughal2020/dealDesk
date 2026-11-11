@@ -1,0 +1,52 @@
+# secrets and local config (never commit)
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.import_linter_cache/
+dist/
+build/
+*.egg-info/
+
+# node / web
+node_modules/
+web/.next/
+web/out/
+web/coverage/
+web/test-results/
+web/playwright-report/
+web/blob-report/
+web/tsconfig.tsbuildinfo
+web/next-env.d.ts
+
+# terraform / helm
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl.bak
+deploy/helm/dealdesk/charts/
+
+# generated artefacts
+artifacts/
+*.docx
+!data/samples/*.docx
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
