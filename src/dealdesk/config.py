@@ -98,7 +98,8 @@ class Settings(BaseSettings):
     llm_output_gbp_per_mtok: Decimal = Field(default=Decimal(0), ge=0)
     embedding_provider: EmbeddingProvider = EmbeddingProvider.FAKE
     embedding_model: str = "fake-hashing-v1"
-    embedding_dim: int = Field(default=256, ge=8, le=4096)
+    # Fixed by the database schema (vector(256)); real providers are asked for 256 dimensions.
+    embedding_dim: int = Field(default=256, ge=256, le=256)
     google_cloud_project: str = ""
     google_cloud_location: str = "europe-west2"
     anthropic_api_key: SecretStr = SecretStr("")

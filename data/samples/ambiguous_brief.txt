@@ -1,0 +1,14 @@
+SAMPLE RFP: AI help for our claims documents
+Issued by: Harbourside Mutual (FICTIONAL ORGANISATION, SAMPLE DATA)
+
+We get a lot of claim documents and our team is struggling to keep up. We think AI could help
+but we are not sure exactly how.
+
+What we are looking for (to be confirmed):
+- Some kind of AI assistant to classify and summarise incoming claim documents, maybe also extract key fields?
+- The team must be able to review and correct what the AI suggests before anything is actioned.
+- Possibly integration with our document management system (TBC, depends on the vendor).
+- We need some way to measure whether the AI is accurate enough.
+- Budget and timeline are flexible, maybe start in the spring?
+
+Please tell us what you would recommend.

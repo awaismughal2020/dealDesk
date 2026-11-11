@@ -45,7 +45,7 @@ logs: ## Follow logs
 
 seed: .env ## Apply migrations and (re)seed sample data (idempotent)
 	$(COMPOSE) up -d --wait db
-	$(COMPOSE) run --rm migrate
+	$(COMPOSE) run --rm --build migrate
 
 demo: .env up seed ## Init if needed, start everything, seed, print URLs
 	@echo ""
@@ -88,7 +88,7 @@ eval-live: .env ## Evals against the configured real provider (sends sample brie
 
 e2e: .env ## Playwright + axe against the full Compose stack
 	$(COMPOSE) up -d --build --wait db api web
-	$(COMPOSE) run --rm migrate
+	$(COMPOSE) run --rm --build migrate
 	$(COMPOSE) --profile e2e run --rm --build playwright
 
 tf-validate: ## terraform fmt -check + validate (never plan/apply)

@@ -1,0 +1,13 @@
+{
+  "_notice": "SAMPLE DATA. Fictional rates in GBP per hour. Not any real company's rate card.",
+  "roles": [
+    {"role": "delivery_lead", "label": "Delivery lead", "cost_rate": "70.00", "sell_rate": "110.00"},
+    {"role": "solution_architect", "label": "Solution architect", "cost_rate": "95.00", "sell_rate": "150.00"},
+    {"role": "senior_engineer", "label": "Senior engineer", "cost_rate": "80.00", "sell_rate": "120.00"},
+    {"role": "engineer", "label": "Engineer", "cost_rate": "60.00", "sell_rate": "90.00"},
+    {"role": "data_engineer", "label": "Data engineer", "cost_rate": "75.00", "sell_rate": "115.00"},
+    {"role": "ml_engineer", "label": "ML engineer (contract specialist)", "cost_rate": "125.00", "sell_rate": "140.00"},
+    {"role": "ux_designer", "label": "UX designer", "cost_rate": "65.00", "sell_rate": "95.00"},
+    {"role": "qa_engineer", "label": "QA engineer", "cost_rate": "50.00", "sell_rate": "75.00"}
+  ]
+}

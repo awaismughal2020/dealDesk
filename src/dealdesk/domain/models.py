@@ -31,6 +31,36 @@ class Flag(StrEnum):
     ESTIMATE_REJECTED = "ESTIMATE_REJECTED"
 
 
+class UserRole(StrEnum):
+    """What a signed-in person may do. Permissions live in `dealdesk.auth.policy`."""
+
+    VIEWER = "viewer"
+    ESTIMATOR = "estimator"
+    APPROVER = "approver"
+    ADMIN = "admin"
+
+
+@dataclass(frozen=True, slots=True)
+class PastProject:
+    """A completed (SAMPLE) project with actual hours by role, used as an estimating reference."""
+
+    project_id: str
+    title: str
+    sector: str
+    summary: str
+    actual_hours_by_role: Mapping[Role, Decimal]
+
+
+@dataclass(frozen=True, slots=True)
+class CaseStudy:
+    """A (SAMPLE) case study that proposals may cite by `case_study_id`."""
+
+    case_study_id: str
+    project_id: str
+    title: str
+    summary: str
+
+
 @dataclass(frozen=True, slots=True)
 class Brief:
     """A client brief (RFP). Its text is untrusted input."""

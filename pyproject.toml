@@ -81,6 +81,9 @@ max-complexity = 10
 max-branches = 12
 max-returns = 6
 
+[tool.ruff.lint.isort]
+known-first-party = ["dealdesk", "scripts", "evals", "tests"]
+
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
 
@@ -103,7 +106,7 @@ packages = ["dealdesk"]
 warn_unreachable = true
 
 [[tool.mypy.overrides]]
-module = ["docx", "docx.*", "pgvector.*"]
+module = ["docx", "docx.*"]
 ignore_missing_imports = true
 
 [tool.pydantic-mypy]
