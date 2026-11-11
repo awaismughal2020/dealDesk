@@ -200,7 +200,7 @@ class RunRow(Base):
     current_step: Mapped[str | None] = mapped_column(String(40))
     revision_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     flags: Mapped[list[Any]] = mapped_column(nullable=False, default=list)
-    requirements: Mapped[list[Any] | None] = mapped_column()
+    requirements: Mapped[dict[str, Any] | None] = mapped_column()
     references: Mapped[list[Any] | None] = mapped_column()
     estimate: Mapped[dict[str, Any] | None] = mapped_column()
     quote: Mapped[dict[str, Any] | None] = mapped_column()

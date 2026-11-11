@@ -229,7 +229,7 @@ class RunRecord:
     current_step: str | None = None
     revision_count: int = 0
     flags: list[str] = field(default_factory=list)
-    requirements: list[JsonDict] | None = None
+    requirements: JsonDict | None = None
     references: list[JsonDict] | None = None
     estimate: JsonDict | None = None
     quote: JsonDict | None = None
@@ -243,6 +243,7 @@ class RunRecord:
 
 RUN_MUTABLE_FIELDS = frozenset(
     {
+        "title",
         "status",
         "current_step",
         "revision_count",
@@ -312,6 +313,9 @@ class RunRepository(Protocol):
 
     def update(self, run_id: UUID, changes: Mapping[str, object]) -> RunRecord:
         """Apply changes to fields in `RUN_MUTABLE_FIELDS`. Raises `NotFoundError`."""
+
+    def transition_status(self, run_id: UUID, expected: RunStatus, new: RunStatus) -> bool:
+        """Atomically move from `expected` to `new`. False if the run was not in `expected`."""
 
     def record_step(self, step: StepRecord) -> None:
         """Insert or replace the record for (run, step, attempt)."""

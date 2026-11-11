@@ -9,7 +9,7 @@ from datetime import UTC, date, datetime
 from decimal import Decimal
 from uuid import UUID
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.dialects.postgresql import insert
 
 from dealdesk.adapters.db.audit import to_row
@@ -154,6 +154,16 @@ class SqlRunRepository:
             session.flush()
             session.refresh(row)
             return _run(row)
+
+    def transition_status(self, run_id: UUID, expected: RunStatus, new: RunStatus) -> bool:
+        """Compare-and-set the status in one UPDATE (safe against concurrent decisions)."""
+        with self._sessions.begin() as session:
+            result = session.execute(
+                update(RunRow)
+                .where(RunRow.id == run_id, RunRow.status == expected.value)
+                .values(status=new.value, updated_at=datetime.now(UTC))
+            )
+            return bool(result.rowcount)  # type: ignore[attr-defined]
 
     def record_step(self, step: StepRecord) -> None:
         """Upsert the record for (run, step, attempt)."""

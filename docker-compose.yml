@@ -42,7 +42,7 @@ services:
     <<: *hardening
     env_file: [.env]
     environment: *app-env
-    command: ["sh", "-c", "alembic upgrade head && python -m scripts.seed"]
+    command: ["sh", "-c", "alembic upgrade head && python -m scripts.setup_checkpointer && python -m scripts.seed"]
     tmpfs: [/tmp]
     depends_on:
       db: { condition: service_healthy }
