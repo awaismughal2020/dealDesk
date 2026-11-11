@@ -48,3 +48,9 @@ def test_invalid_combinations_fail_fast(overrides: dict[str, str], message: str)
 def test_secure_cookies_allowed_in_production() -> None:
     settings = Settings(app_env="production", cookie_secure=True)  # type: ignore[arg-type]
     assert not settings.is_local
+
+
+def test_policies_are_domain_value_objects() -> None:
+    settings = make()
+    assert str(settings.costing_policy.minimum_margin) == "0.25"
+    assert [str(p) for p in settings.invoice_policy.percentages] == ["30", "40", "30"]

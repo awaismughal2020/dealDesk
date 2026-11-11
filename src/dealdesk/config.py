@@ -4,10 +4,13 @@ from __future__ import annotations
 
 from decimal import Decimal
 from enum import StrEnum
+from functools import cached_property
 from typing import Annotated, Self
 
 from pydantic import Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
+
+from dealdesk.domain.models import CostingPolicy, InvoicePolicy
 
 
 class AppEnv(StrEnum):
@@ -162,6 +165,25 @@ class Settings(BaseSettings):
         if uses_vertex and not self.google_cloud_project:
             msg = "Vertex provider requires GOOGLE_CLOUD_PROJECT"
             raise ValueError(msg)
+
+    @cached_property
+    def costing_policy(self) -> CostingPolicy:
+        """Commercial policy as a domain value object."""
+        return CostingPolicy(
+            contingency=self.contingency,
+            target_margin=self.target_margin,
+            minimum_margin=self.minimum_margin,
+            max_hours_per_role=self.max_hours_per_role,
+        )
+
+    @cached_property
+    def invoice_policy(self) -> InvoicePolicy:
+        """Invoice milestone policy as a domain value object."""
+        return InvoicePolicy(
+            percentages=tuple(self.invoice_milestone_percentages),
+            offset_days=tuple(self.invoice_milestone_offset_days),
+            vat_rate=self.vat_rate,
+        )
 
     @property
     def is_local(self) -> bool:
