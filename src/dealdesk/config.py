@@ -122,6 +122,7 @@ class Settings(BaseSettings):
     retrieval_top_k: int = Field(default=3, ge=1, le=10)
 
     upload_max_bytes: int = Field(default=10 * 1024 * 1024, ge=1024)
+    data_dir: str = "data"
     workflow_max_workers: int = Field(default=4, ge=1, le=32)
 
     @field_validator(

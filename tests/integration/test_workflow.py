@@ -171,7 +171,7 @@ def test_brief_to_approval_to_records(
     paused = stack.run(run.id)
     assert paused.status is RunStatus.AWAITING_APPROVAL
     assert paused.quote is not None and paused.quote["price"] == "137830.00"
-    assert paused.title == "clean_brief"
+    assert paused.title == "Tenant self-service portal"
     assert {"BELOW_TARGET_MARGIN", "RESOURCE_CLASH"} <= set(paused.flags)
     assert paused.is_final is False
     assert stack.renderer.documents[-1].is_final is False

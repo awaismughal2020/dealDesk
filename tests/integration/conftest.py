@@ -16,6 +16,7 @@ from alembic.config import Config
 from sqlalchemy import Engine, text
 from sqlalchemy.engine import make_url
 
+from dealdesk.adapters.db.checkpointer import open_checkpointer
 from dealdesk.adapters.db.session import SessionFactory, make_engine, make_session_factory
 from dealdesk.adapters.embeddings.fake import FakeEmbedder
 from scripts.seed import seed_reference_data
@@ -60,6 +61,11 @@ def database_url() -> str:
     os.environ["DATABASE_URL"] = url
     try:
         command.upgrade(config, "head")
+        saver, pool = open_checkpointer(url, max_size=1)
+        try:
+            saver.setup()
+        finally:
+            pool.close()
     finally:
         if previous is None:
             os.environ.pop("DATABASE_URL", None)

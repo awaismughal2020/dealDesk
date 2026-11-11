@@ -74,6 +74,9 @@ ignore = [
   "ISC001",   # conflicts with the formatter
 ]
 
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [tool.ruff.lint.mccabe]
 max-complexity = 10
 

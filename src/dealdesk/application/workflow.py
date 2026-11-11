@@ -168,9 +168,8 @@ class WorkflowNodes:
 
         def work(run: RunRecord) -> dict[str, Any]:
             extraction = self._d.pipeline.extract(self._d.runs.brief_text(run.id))
-            self._save(
-                run.id, {"requirements": extraction_to_json(extraction)}, extraction.calls, state
-            )
+            changes = {"requirements": extraction_to_json(extraction), "title": extraction.title}
+            self._save(run.id, changes, extraction.calls, state)
             return {
                 "requirements": str(len(extraction.requirements)),
                 "quarantined": str(len(extraction.quarantined)),
