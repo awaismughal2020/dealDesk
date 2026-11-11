@@ -13,7 +13,7 @@ from dealdesk.application.pipeline import (
     quote_roles,
 )
 from dealdesk.domain.models import Flag
-from tests.unit.application.conftest import ScriptedLLM
+from tests.unit.conftest import ScriptedLLM
 
 D = Decimal
 

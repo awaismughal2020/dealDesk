@@ -33,4 +33,5 @@ Rule for every milestone: `make check` green inside Docker, then one conventiona
 9. **Cookies & paths.** Next.js proxies `/v1/*` to the API through a runtime route handler, so the browser path equals the API path. Access cookie `Path=/` (needed for page-level route protection), refresh cookie `Path=/v1/auth` (narrowest).
 10. **Rate limiting** is an in-memory sliding window per process (documented single-replica limitation; Redis is the scale-out path).
 11. **Keycloak `oidc` profile** is the first optional item to cut if time is short (spec §16). OIDC token validation is built and tested with a mocked JWKS regardless.
-12. **Versions** were checked against PyPI, npm, Docker Hub and MCR on 2026-11-11 and pinned (lockfiles + image tags).
+12. **M6 before M5.** The API composition root (M5) wires in the `.docx` renderer, which depends only on ports and the domain. The renderer was therefore built and committed as M6 before the M5 commit, with the in-progress M5 files stashed so M6's `make check` ran on exactly what was committed.
+13. **Versions** were checked against PyPI, npm, Docker Hub and MCR on 2026-11-11 and pinned (lockfiles + image tags).

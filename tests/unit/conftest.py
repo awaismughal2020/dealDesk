@@ -12,7 +12,7 @@ from dealdesk.application.pipeline import DealPipeline
 from dealdesk.config import Settings
 from dealdesk.ports.llm import LLMPort, LLMResult, LLMUsage, PromptSpec
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = Path(__file__).resolve().parents[2]
 
 
 class ScriptedLLM:
