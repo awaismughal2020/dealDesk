@@ -16,6 +16,7 @@ from dealdesk.api.errors import ApiError
 from dealdesk.api.presenters import detail, summary
 from dealdesk.api.schemas import (
     DecisionIn,
+    Problem,
     RunDetailOut,
     RunListOut,
     RunSummaryOut,
@@ -85,7 +86,10 @@ def list_samples(_: Creator, container: ContainerDep) -> SampleListOut:
     response_model=RunSummaryOut,
     status_code=202,
     operation_id="createRun",
-    responses={413: {"description": "Too large"}, 415: {"description": "Unsupported type"}},
+    responses={
+        413: {"model": Problem, "description": "Too large"},
+        415: {"model": Problem, "description": "Unsupported type"},
+    },
 )
 def create_run(
     request: Request,

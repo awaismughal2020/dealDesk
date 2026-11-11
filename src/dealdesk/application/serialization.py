@@ -21,6 +21,7 @@ from dealdesk.domain.models import (
     ResourcePlan,
     TeamMember,
 )
+from dealdesk.domain.money import round_ratio
 from dealdesk.ports.repositories import JsonDict, Scored
 
 
@@ -192,6 +193,7 @@ def plan_to_json(plan: ResourcePlan, team: list[TeamMember]) -> JsonDict:
                 "week_index": a.week_index,
                 "hours": str(a.hours),
                 "capacity": str(a.capacity),
+                "utilisation": str(round_ratio(a.hours / a.capacity)),
             }
             for a in plan.assignments
         ],

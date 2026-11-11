@@ -198,12 +198,13 @@ class PersonOut(Model):
 
 
 class AssignmentOut(Model):
-    """Hours for one person in one week."""
+    """Hours for one person in one week, and the share of their availability (1.0 = 100%)."""
 
     member_id: str
     week_index: int
     hours: Amount
     capacity: Amount
+    utilisation: Amount
 
 
 class ClashOut(Model):

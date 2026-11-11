@@ -4,7 +4,6 @@ SHELL := /bin/bash
 
 export HOST_UID := $(shell id -u)
 export HOST_GID := $(shell id -g)
-export COMPOSE_BAKE := false
 
 COMPOSE   := docker compose
 DEV_IMAGE := dealdesk-dev:local
