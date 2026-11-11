@@ -74,7 +74,7 @@ embedding provider, re-run `make seed` so the SAMPLE reference data is re-embedd
 | `make eval-live` | The same evals against the configured real provider |
 | `make e2e` | Playwright (official image) against the full Compose stack, with axe accessibility checks |
 | `make tf-validate`, `make helm-lint` | Terraform fmt/validate and Helm lint/template (nothing is applied) |
-| `make audit`, `make secrets-scan` | pip-audit and npm audit; gitleaks over the history |
+| `make audit`, `make image-scan`, `make secrets-scan` | pip-audit and npm audit; Trivy on both runtime images; gitleaks over the history |
 
 ## Limitations (honest)
 

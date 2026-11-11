@@ -38,13 +38,17 @@ ENV UV_PROJECT_ENVIRONMENT=/opt/venv \
     HOME=/tmp
 COPY pyproject.toml uv.lock README.md ./
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-install-project \
+    UV_CACHE_DIR=/root/.cache/uv uv sync --frozen --no-install-project \
  && chmod -R a+rX /opt/venv
 CMD ["bash"]
 
 # ---------------------------------------------------------------- runtime: minimal, non-root
 FROM base AS runtime
-RUN groupadd --system --gid 10001 dealdesk \
+# Apply Debian security updates published after the base image was built (e.g. zlib CVEs).
+RUN apt-get update \
+ && apt-get upgrade -y --no-install-recommends \
+ && rm -rf /var/lib/apt/lists/* \
+ && groupadd --system --gid 10001 dealdesk \
  && useradd --system --uid 10001 --gid dealdesk --no-create-home --shell /usr/sbin/nologin dealdesk
 COPY --from=builder /opt/venv /opt/venv
 COPY alembic.ini ./
@@ -57,4 +61,4 @@ USER 10001:10001
 EXPOSE 8000
 HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=5 \
   CMD ["python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=2).status == 200 else 1)"]
-CMD ["uvicorn", "dealdesk.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--no-server-header"]
+CMD ["uvicorn", "dealdesk.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--no-server-header", "--no-access-log"]

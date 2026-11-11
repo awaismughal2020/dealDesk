@@ -285,6 +285,7 @@ class WorkflowNodes:
                 "proposal": proposal_json,
                 "proposal_document_id": document_id,
                 "is_final": False,
+                "review_comment": state.get("reviewer_comment"),
             }
             self._save(run.id, changes, draft.calls, state)
             return {"flags": ",".join(proposal_json["flags"])}

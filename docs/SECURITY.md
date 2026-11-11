@@ -21,7 +21,7 @@ Scope: the Deal Desk MVP as built in this repository. Every policy below is eith
 | 12 | Argon2id, no reversible secrets, no default credentials | `auth/passwords.py` (NIST 800-63B style: 12+ characters, denylist, no composition rules); refresh tokens stored as SHA-256 hashes; demo passwords generated per machine by `make init` |
 | 13 | HttpOnly cookies, CSRF, rotation with reuse detection | Access cookie `Path=/`, refresh cookie `Path=/v1/auth`, both `HttpOnly; SameSite=Lax` and `Secure` outside local (the app refuses to start otherwise); double-submit token plus Origin/Referer check; refresh rotation with family revocation on reuse |
 | 14 | Strict CSP and security headers on API and web | API: `default-src 'none'`, `frame-ancestors 'none'`, nosniff, no-referrer, `no-store`, HSTS outside local. Web: per-request nonce, `script-src 'self' 'nonce-…' 'strict-dynamic'` (no `unsafe-inline` for scripts), `frame-ancestors 'none'`, HSTS outside local |
-| 15 | Dependency and image scanning | `pip-audit`, `npm audit`, Trivy (CI) |
+| 15 | Dependency and image scanning | `make audit` (`pip-audit` with hash-checked lock export, `npm audit`), `make image-scan` and CI (Trivy, vulnerabilities, fixable HIGH/CRITICAL fail). Runtime images apply Debian security updates at build; the web runtime ships `node` only (npm removed). Trivy's secret rules are not used on images because they flag documentation strings in third-party SDKs; repository secrets are covered by gitleaks |
 | 16 | Threat model | Below |
 
 Separation of duties: nobody can approve or reject a run they created, even after being promoted to

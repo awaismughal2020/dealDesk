@@ -25,7 +25,13 @@ ENV NODE_ENV=production \
     PORT=3000 \
     HOSTNAME=0.0.0.0
 WORKDIR /app
-RUN groupadd --system --gid 10001 web \
+# Apply Debian security updates published after the base image was built (e.g. zlib CVEs), and
+# remove npm/npx/corepack: the standalone server needs only `node`.
+RUN apt-get update \
+ && apt-get upgrade -y --no-install-recommends \
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /usr/local/lib/node_modules /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack \
+ && groupadd --system --gid 10001 web \
  && useradd --system --uid 10001 --gid web --no-create-home --shell /usr/sbin/nologin web
 COPY --from=builder --chown=10001:10001 /app/.next/standalone ./
 COPY --from=builder --chown=10001:10001 /app/.next/static ./.next/static

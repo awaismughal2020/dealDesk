@@ -226,6 +226,7 @@ def test_rejection_requires_comment_and_returns_to_drafting(
     stack.service.decide(approver, run.id, Decision.REJECTED, "Stress accessibility testing", None)
     redrafted = stack.run(run.id)
     assert redrafted.status is RunStatus.AWAITING_APPROVAL
+    assert redrafted.review_comment == "Stress accessibility testing"
     assert redrafted.proposal is not None
     assert "Stress accessibility testing" in redrafted.proposal["sections"]["executive_summary"]
     drafts = [s for s in stack.runs.steps(run.id) if s.step == "draft_proposal"]

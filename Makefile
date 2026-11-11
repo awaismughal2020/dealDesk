@@ -13,10 +13,11 @@ WEB_DEV   := $(COMPOSE) --profile tools run --rm --no-deps web-dev
 TF_IMAGE  := hashicorp/terraform:1.17.2
 HELM_IMAGE := alpine/helm:3.22.1
 GITLEAKS_IMAGE := zricethezav/gitleaks:v8.30.1
+TRIVY_IMAGE := aquasec/trivy:0.76.2
 
 .PHONY: help init rotate-keys up down logs seed demo gen-client test lint typecheck imports \
         web-lint web-test web-typecheck e2e check eval eval-record eval-live tf-validate helm-lint \
-        audit secrets-scan clean dev-image
+        audit image-scan secrets-scan clean dev-image
 
 help: ## List targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
@@ -102,8 +103,16 @@ helm-lint: ## helm lint + template
 	docker run --rm -v "$(CURDIR)/deploy/helm":/charts -w /charts $(HELM_IMAGE) template dealdesk dealdesk >/dev/null && echo "helm template: ok"
 
 audit: .env ## Dependency audit (pip-audit + npm audit)
-	$(DEV) sh -c "uv export --frozen --no-hashes --no-emit-project > /tmp/req.txt && pip-audit -r /tmp/req.txt --no-deps --disable-pip"
+	$(DEV) sh -c "uv export --no-cache --frozen --no-emit-project > /tmp/req.txt && pip-audit -r /tmp/req.txt --require-hashes --disable-pip"
 	$(WEB_DEV) npm audit --omit=dev --audit-level=high
+
+image-scan: ## Build runtime images and scan them for fixable HIGH/CRITICAL vulnerabilities (Trivy)
+	docker build -q --target runtime -t dealdesk-api:local . >/dev/null
+	docker build -q --target runtime -t dealdesk-web:local web >/dev/null
+	for img in dealdesk-api:local dealdesk-web:local; do \
+	  docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v dealdesk_trivy_cache:/root/.cache $(TRIVY_IMAGE) \
+	    image --quiet --scanners vuln --exit-code 1 --ignore-unfixed --severity HIGH,CRITICAL $$img || exit 1; \
+	done; echo "image-scan: no fixable HIGH/CRITICAL vulnerabilities"
 
 secrets-scan: ## gitleaks over the git history
 	docker run --rm -v "$(CURDIR)":/repo $(GITLEAKS_IMAGE) git /repo --redact --no-banner
