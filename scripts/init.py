@@ -68,8 +68,13 @@ def generate_key() -> str:
     # deployed environments use Secret Manager / Kubernetes Secrets, see docs/RUNBOOK.md).
     key_file.chmod(0o644)
     (KEYS_DIR / ACTIVE_KID_FILE).write_text(kid + "\n", encoding="utf-8")
-    keys = sorted(KEYS_DIR.glob("*.pem"), key=lambda p: p.stat().st_mtime, reverse=True)
-    for stale in keys[KEYS_TO_KEEP:]:
+    # Keep the new active key plus the most recent previous one (still published for verification).
+    previous = sorted(
+        (p for p in KEYS_DIR.glob("*.pem") if p.stem != kid),
+        key=lambda p: (p.stat().st_mtime_ns, p.name),
+        reverse=True,
+    )
+    for stale in previous[KEYS_TO_KEEP - 1 :]:
         stale.unlink()
     return kid
 

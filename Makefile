@@ -46,7 +46,7 @@ seed: .env ## Apply migrations and (re)seed sample data (idempotent)
 	$(COMPOSE) up -d --wait db
 	$(COMPOSE) run --rm --build migrate
 
-demo: .env up seed ## Init if needed, start everything, seed, print URLs
+demo: init up seed ## Init (idempotent: fills any blank secrets), start everything, seed, print URLs
 	@echo ""
 	@echo "Deal Desk is running (SAMPLE DATA ONLY, offline fake LLM)."
 	@echo "  UI:           http://localhost:3000"

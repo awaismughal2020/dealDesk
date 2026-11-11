@@ -53,16 +53,19 @@ class KeyRing:
     @classmethod
     def load(cls, directory: Path) -> KeyRing:
         """Read `*.pem` keys and `active_kid` from a directory."""
-        active = directory / ACTIVE_KID_FILE
-        if not active.exists():
-            raise KeyConfigurationError(f"no {ACTIVE_KID_FILE} in {directory}; run `make init`")
         keys: dict[str, Ed25519PrivateKey] = {}
         for pem in sorted(directory.glob("*.pem")):
             key = serialization.load_pem_private_key(pem.read_bytes(), password=None)
             if not isinstance(key, Ed25519PrivateKey):
                 raise KeyConfigurationError(f"{pem.name} is not an Ed25519 key")
             keys[pem.stem] = key
-        kid = active.read_text(encoding="utf-8").strip()
+        active = directory / ACTIVE_KID_FILE
+        if active.exists():
+            kid = active.read_text(encoding="utf-8").strip()
+        elif len(keys) == 1:  # a single mounted key (e.g. one Secret Manager version) is active
+            kid = next(iter(keys))
+        else:
+            raise KeyConfigurationError(f"no {ACTIVE_KID_FILE} in {directory}; run `make init`")
         if kid not in keys:
             raise KeyConfigurationError(f"active key {kid!r} not found in {directory}")
         return cls(kid, keys)

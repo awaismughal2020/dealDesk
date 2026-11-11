@@ -50,3 +50,4 @@ artifacts/
 .DS_Store
 .idea/
 .vscode/
+terraform.tfvars

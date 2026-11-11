@@ -40,6 +40,14 @@ def test_key_rotation_keeps_old_tokens_valid(tmp_path: Path) -> None:
     assert all(k["alg"] == "EdDSA" and "d" not in k for k in rotated.jwks()["keys"])
 
 
+def test_single_key_without_active_file_is_used(tmp_path: Path) -> None:
+    write_key(tmp_path, "current")
+    assert KeyRing.load(tmp_path).active_kid == "current"
+    write_key(tmp_path, "previous")
+    with pytest.raises(KeyConfigurationError, match="make init"):
+        KeyRing.load(tmp_path)  # several keys and no marker: ambiguous
+
+
 def test_key_ring_errors(tmp_path: Path) -> None:
     with pytest.raises(KeyConfigurationError, match="make init"):
         KeyRing.load(tmp_path)

@@ -135,8 +135,16 @@ def build_container(
             settings.argon2_time_cost, settings.argon2_memory_cost_kib, settings.argon2_parallelism
         )
     )
+    if keys is None:
+        # In OIDC mode our own tokens are never issued or accepted (sign-in is disabled and the
+        # authenticator validates the provider's tokens), so no local signing key is required.
+        keys = (
+            KeyRing.generate()
+            if settings.auth_mode is AuthMode.OIDC
+            else KeyRing.load(Path(settings.jwt_keys_dir))
+        )
     tokens = TokenService(
-        keys or KeyRing.load(Path(settings.jwt_keys_dir)),
+        keys,
         issuer=settings.jwt_issuer,
         audience=settings.jwt_audience,
         ttl_seconds=settings.access_token_ttl_seconds,
