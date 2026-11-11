@@ -31,7 +31,8 @@ export function ResourceHeatmap({ plan }: { plan: ResourcePlan }) {
             .join(", ")}
         </p>
       ) : null}
-      <div className="overflow-x-auto">
+      {/* Focusable so keyboard users can scroll wide plans. */}
+      <div className="overflow-x-auto" role="region" aria-label="Resource plan table" tabIndex={0}>
         <table className="border-collapse text-xs" aria-label="Hours per person per week">
           <thead>
             <tr>

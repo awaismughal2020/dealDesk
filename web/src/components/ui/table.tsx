@@ -1,9 +1,17 @@
 import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
+/** A table in a keyboard-focusable scroll region (wide tables scroll on small screens). */
 export function Table({ className, ...props }: HTMLAttributes<HTMLTableElement>) {
   return (
-    <div className="w-full overflow-x-auto">
+    <div
+      className="w-full overflow-x-auto"
+      role="region"
+      aria-label={
+        props["aria-label"] ? `${props["aria-label"]} (scrollable)` : "Table (scrollable)"
+      }
+      tabIndex={0}
+    >
       <table className={cn("w-full border-collapse text-sm", className)} {...props} />
     </div>
   );

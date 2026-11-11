@@ -133,7 +133,7 @@ export function NewRun() {
                     size="sm"
                     disabled={createRun.isPending}
                     onClick={() => void start({ sampleId: sample.id })}
-                    aria-label={`Use sample: ${sample.title}`}
+                    aria-label={`Use ${sample.id.replace(/_/g, " ")}`}
                   >
                     Use
                   </Button>

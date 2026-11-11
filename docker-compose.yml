@@ -121,9 +121,12 @@ services:
     image: dealdesk-e2e:local
     env_file: [.env]
     environment:
-      BASE_URL: http://web:3000
+      # Shares the web container's network namespace, so the browser uses http://localhost:3000
+      # exactly as a person would (same Origin, same cookies).
+      BASE_URL: http://localhost:3000
       HOME: /tmp
       CI: "1"
+    network_mode: "service:web"
     volumes:
       - ./web/e2e:/work/e2e:ro
       - ./web/playwright.config.ts:/work/playwright.config.ts:ro
