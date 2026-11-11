@@ -16,7 +16,7 @@ HELM_IMAGE := alpine/helm:3.22.1
 GITLEAKS_IMAGE := zricethezav/gitleaks:v8.30.1
 
 .PHONY: help init rotate-keys up down logs seed demo gen-client test lint typecheck imports \
-        web-lint web-test web-typecheck e2e check eval eval-live tf-validate helm-lint \
+        web-lint web-test web-typecheck e2e check eval eval-record eval-live tf-validate helm-lint \
         audit secrets-scan clean dev-image
 
 help: ## List targets
@@ -82,6 +82,9 @@ check: lint typecheck imports test web-lint web-test ## Everything except e2e an
 
 eval: .env ## Offline evals against recorded FakeLLM fixtures
 	$(DEV) python -m evals.run
+
+eval-record: .env ## Re-record eval fixtures from the FakeLLM rules (after changing a prompt)
+	$(DEV) python -m evals.run --record
 
 eval-live: .env ## Evals against the configured real provider (sends sample briefs to it)
 	$(DEV) python -m evals.run --live

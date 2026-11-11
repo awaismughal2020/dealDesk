@@ -91,7 +91,10 @@ ban-relative-imports = "all"
 extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.File", "fastapi.Form", "fastapi.Body", "fastapi.Path", "fastapi.Header", "fastapi.Cookie"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S101", "S105", "S106", "D", "ANN", "PLR2004", "FBT", "ARG", "S311", "PLC0415", "SLF001"]
+"tests/**" = ["S101", "S105", "S106", "D", "ANN", "PLR2004", "FBT", "ARG", "S311", "PLC0415", "SLF001", "PT018"]
+# SDK clients are injected (for offline tests) as untyped handles; Any is deliberate there.
+"src/dealdesk/adapters/llm/{vertex,anthropic_client,openai_client}.py" = ["ANN401"]
+"src/dealdesk/adapters/embeddings/providers.py" = ["ANN401"]
 "evals/**" = ["T20", "D", "S101"]
 "scripts/**" = ["T20", "D"]
 "migrations/**" = ["D", "ANN"]
@@ -121,7 +124,13 @@ addopts = "-ra --strict-markers --strict-config"
 markers = [
   "integration: needs a real Postgres (DATABASE_URL)",
 ]
-filterwarnings = ["error", "ignore::DeprecationWarning:langgraph.*", "ignore::DeprecationWarning:langchain_core.*"]
+filterwarnings = [
+  "error",
+  "ignore::DeprecationWarning:langgraph.*",
+  "ignore::DeprecationWarning:langchain_core.*",
+  # google-genai 3.0.0 ships a docstring with an invalid escape sequence (upstream bug).
+  "ignore:invalid escape sequence:SyntaxWarning",
+]
 
 [tool.coverage.run]
 branch = true

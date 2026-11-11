@@ -1,0 +1,46 @@
+{
+  "output": {
+    "ambiguities": [
+      "Please clarify: Some kind of AI assistant to classify and summarise incoming claim documents, maybe also extract key fields?",
+      "Please clarify: Possibly integration with our document management system (TBC, depends on the vendor).",
+      "Please clarify: Budget and timeline are flexible, maybe start in the spring?"
+    ],
+    "requirements": [
+      {
+        "category": "data",
+        "priority": "could",
+        "ref": "R-1",
+        "text": "Some kind of AI assistant to classify and summarise incoming claim documents, maybe also extract key fields?"
+      },
+      {
+        "category": "functional",
+        "priority": "must",
+        "ref": "R-2",
+        "text": "The team must be able to review and correct what the AI suggests before anything is actioned."
+      },
+      {
+        "category": "integration",
+        "priority": "could",
+        "ref": "R-3",
+        "text": "Possibly integration with our document management system (TBC, depends on the vendor)."
+      },
+      {
+        "category": "delivery",
+        "priority": "should",
+        "ref": "R-4",
+        "text": "We need some way to measure whether the AI is accurate enough."
+      },
+      {
+        "category": "delivery",
+        "priority": "could",
+        "ref": "R-5",
+        "text": "Budget and timeline are flexible, maybe start in the spring?"
+      }
+    ],
+    "summary": "We get a lot of claim documents and our team is struggling to keep up. We think AI could help\nbut we are not sure exactly how.",
+    "title": "AI help for our claims documents"
+  },
+  "prompt_id": "extract_requirements",
+  "prompt_version": "1.1.0",
+  "recorded_with": "fake/fake-deterministic-v1"
+}
