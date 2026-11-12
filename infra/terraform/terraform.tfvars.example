@@ -1,0 +1,8 @@
+# Example only. Copy to terraform.tfvars (git-ignored) and fill in. No real values are committed.
+project_id    = "your-gcp-project-id"
+environment   = "staging"
+api_image     = "europe-west2-docker.pkg.dev/your-gcp-project-id/dealdesk-staging/api@sha256:<digest>"
+web_image     = "europe-west2-docker.pkg.dev/your-gcp-project-id/dealdesk-staging/web@sha256:<digest>"
+public_origin = "https://dealdesk.example.org"
+llm_provider  = "vertex"
+llm_model     = "<a Vertex AI model id from configuration>"

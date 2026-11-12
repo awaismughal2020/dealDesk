@@ -1,0 +1,13 @@
+{
+  "brief": "data/samples/ambiguous_brief.txt",
+  "title_contains": "AI help for our claims documents",
+  "expected_requirements": [
+    "classify and summarise",
+    "review and correct",
+    "document management system",
+    "measure whether the AI is accurate"
+  ],
+  "expect_injection_flag": false,
+  "min_ambiguities": 2,
+  "min_revisions": 1
+}

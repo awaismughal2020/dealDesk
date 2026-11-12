@@ -1,0 +1,6 @@
+apiVersion: v2
+name: dealdesk
+description: Deal Desk MVP (API and web). SAMPLE DATA ONLY. Validate with helm lint; not deployed from this repo.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

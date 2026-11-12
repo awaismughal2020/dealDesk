@@ -1,0 +1,140 @@
+# Deal Desk local stack. Ports are published on 127.0.0.1 only.
+# Default: offline (LLM_PROVIDER=fake, AUTH_MODE=local). Secrets come from the git-ignored .env.
+
+name: dealdesk
+
+x-hardening: &hardening
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+
+x-app-env: &app-env
+  DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-dealdesk}:${POSTGRES_PASSWORD:?run make init}@db:5432/${POSTGRES_DB:-dealdesk}
+  JWT_KEYS_DIR: /run/dealdesk-keys
+
+services:
+  db:
+    image: pgvector/pgvector:0.8.7-pg16-trixie
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dealdesk}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?run make init}
+      POSTGRES_DB: ${POSTGRES_DB:-dealdesk}
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    tmpfs:
+      - /var/run/postgresql
+      - /tmp
+    read_only: true
+    security_opt: ["no-new-privileges:true"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits: { cpus: "1.0", memory: 1g }
+
+  migrate:
+    build: { context: ., target: runtime }
+    image: dealdesk-api:local
+    <<: *hardening
+    env_file: [.env]
+    environment: *app-env
+    command: ["sh", "-c", "alembic upgrade head && python -m scripts.setup_checkpointer && python -m scripts.seed"]
+    tmpfs: [/tmp]
+    depends_on:
+      db: { condition: service_healthy }
+    restart: "no"
+
+  api:
+    build: { context: ., target: runtime }
+    image: dealdesk-api:local
+    <<: *hardening
+    env_file: [.env]
+    environment:
+      <<: *app-env
+      # Only the web container talks to the API inside this network; trust its X-Forwarded-For.
+      FORWARDED_ALLOW_IPS: "*"
+    volumes:
+      - ./secrets/jwt:/run/dealdesk-keys:ro
+    tmpfs: [/tmp]
+    ports: ["127.0.0.1:8000:8000"]
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits: { cpus: "1.0", memory: 1g }
+
+  web:
+    build: { context: ./web, target: runtime }
+    image: dealdesk-web:local
+    <<: *hardening
+    environment:
+      API_INTERNAL_URL: ${API_INTERNAL_URL:-http://api:8000}
+      APP_ENV: ${APP_ENV:-local}
+      AUTH_MODE: ${AUTH_MODE:-local}
+      OIDC_ISSUER: ${OIDC_ISSUER:-}
+      OIDC_CLIENT_ID: ${OIDC_CLIENT_ID:-}
+      OIDC_AUTHORIZE_URL: ${OIDC_AUTHORIZE_URL:-}
+      OIDC_TOKEN_URL: ${OIDC_TOKEN_URL:-}
+    tmpfs: [/tmp, /app/.next/cache]
+    ports: ["127.0.0.1:3000:3000"]
+    depends_on:
+      api: { condition: service_healthy }
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits: { cpus: "1.0", memory: 512m }
+
+  # ---------------------------------------------------------------- tooling (make check, eval, gen-client)
+  dev:
+    profiles: [tools]
+    build: { context: ., target: dev }
+    image: dealdesk-dev:local
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    env_file: [.env]
+    environment:
+      TEST_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-dealdesk}:${POSTGRES_PASSWORD:?run make init}@db:5432/dealdesk_test
+    volumes: [".:/app"]
+    working_dir: /app
+
+  web-dev:
+    profiles: [tools]
+    build: { context: ./web, target: dev }
+    image: dealdesk-web-dev:local
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    environment:
+      HOME: /tmp
+      NEXT_TELEMETRY_DISABLED: "1"
+      NPM_CONFIG_UPDATE_NOTIFIER: "false"
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    working_dir: /app
+
+  playwright:
+    profiles: [e2e]
+    build: { context: ./web, target: e2e }
+    image: dealdesk-e2e:local
+    env_file: [.env]
+    environment:
+      # Shares the web container's network namespace, so the browser uses http://localhost:3000
+      # exactly as a person would (same Origin, same cookies).
+      BASE_URL: http://localhost:3000
+      HOME: /tmp
+      CI: "1"
+    network_mode: "service:web"
+    volumes:
+      - ./web/e2e:/work/e2e:ro
+      - ./web/playwright.config.ts:/work/playwright.config.ts:ro
+      - ./web/test-results:/work/test-results
+    working_dir: /work
+    ipc: host
+    depends_on:
+      web: { condition: service_healthy }
+
+volumes:
+  dbdata:

@@ -1,0 +1,45 @@
+{
+  "_notice": "SAMPLE DATA. Fictional past projects for fictional clients. No real organisation is described.",
+  "projects": [
+    {
+      "id": "PP-001",
+      "title": "Customer self-service portal (SAMPLE)",
+      "sector": "housing",
+      "summary": "Tenant self-service web portal for a fictional housing association: repairs reporting, rent account view, secure messaging, accessibility to WCAG 2.2 AA, single sign-on and integration with a housing management system API.",
+      "actual_hours": {"delivery_lead": "120", "solution_architect": "80", "senior_engineer": "320", "engineer": "400", "ux_designer": "160", "qa_engineer": "140"},
+      "case_study": {"id": "CS-001", "title": "Tenant portal for a fictional housing association (SAMPLE)", "summary": "Delivered a responsive, accessible tenant portal with repairs reporting and secure messaging in 14 weeks. Sample outcome: online repair reports replaced most phone requests."}
+    },
+    {
+      "id": "PP-002",
+      "title": "Cloud data platform migration (SAMPLE)",
+      "sector": "logistics",
+      "summary": "Migration of on-premise reporting databases to a cloud data warehouse for a fictional logistics firm, with data pipelines, data quality checks and governance.",
+      "actual_hours": {"delivery_lead": "100", "solution_architect": "120", "data_engineer": "480", "senior_engineer": "160", "qa_engineer": "80"},
+      "case_study": {"id": "CS-002", "title": "Warehouse migration for a fictional logistics firm (SAMPLE)", "summary": "Moved nightly reporting to a cloud warehouse with automated data pipelines and quality checks. Sample outcome: reports available by 7am instead of midday."}
+    },
+    {
+      "id": "PP-003",
+      "title": "AI document triage assistant (SAMPLE)",
+      "sector": "insurance",
+      "summary": "AI assistant that classifies and summarises incoming claim documents for a fictional insurer, with human review, document extraction, model evaluation and an audit trail.",
+      "actual_hours": {"delivery_lead": "90", "solution_architect": "60", "ml_engineer": "420", "senior_engineer": "200", "engineer": "120", "ux_designer": "60", "qa_engineer": "90"},
+      "case_study": {"id": "CS-003", "title": "Claims document triage with human review (SAMPLE)", "summary": "Built an AI assistant that classifies and summarises incoming claim documents, with human review of every suggestion and an evaluation harness for accuracy. Sample outcome: triage time per document roughly halved in a pilot."}
+    },
+    {
+      "id": "PP-004",
+      "title": "Booking and scheduling web app (SAMPLE)",
+      "sector": "charity",
+      "summary": "Volunteer booking and scheduling web application for a fictional charity network, with calendar integration, notifications and an admin console.",
+      "actual_hours": {"delivery_lead": "70", "senior_engineer": "140", "engineer": "260", "ux_designer": "120", "qa_engineer": "80"},
+      "case_study": {"id": "CS-004", "title": "Volunteer scheduling for a fictional charity (SAMPLE)", "summary": "Shipped a booking and scheduling app with reminders and an admin console in 10 weeks. Sample outcome: fewer missed volunteer shifts."}
+    },
+    {
+      "id": "PP-005",
+      "title": "Reporting dashboards and API integration (SAMPLE)",
+      "sector": "public sector",
+      "summary": "Operational reporting dashboards and API integration between case management and finance systems for a fictional local authority.",
+      "actual_hours": {"delivery_lead": "60", "solution_architect": "40", "data_engineer": "200", "engineer": "160", "ux_designer": "40", "qa_engineer": "60"},
+      "case_study": {"id": "CS-005", "title": "Dashboards for a fictional local authority (SAMPLE)", "summary": "Integrated case management and finance data behind self-serve dashboards. Sample outcome: monthly reporting pack produced automatically."}
+    }
+  ]
+}

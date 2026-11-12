@@ -1,0 +1,44 @@
+{
+  "output": {
+    "assumptions": [
+      "Hour allocation revised; rates are unchanged and set by code."
+    ],
+    "rationale": "Moved 78 hours from ml_engineer to senior_engineer, where the work allows it.",
+    "reference_project_ids": [
+      "PP-003"
+    ],
+    "roles": [
+      {
+        "hours": "56",
+        "role": "delivery_lead"
+      },
+      {
+        "hours": "74",
+        "role": "engineer"
+      },
+      {
+        "hours": "182",
+        "role": "ml_engineer"
+      },
+      {
+        "hours": "56",
+        "role": "qa_engineer"
+      },
+      {
+        "hours": "202",
+        "role": "senior_engineer"
+      },
+      {
+        "hours": "37",
+        "role": "solution_architect"
+      },
+      {
+        "hours": "37",
+        "role": "ux_designer"
+      }
+    ]
+  },
+  "prompt_id": "revise_estimate",
+  "prompt_version": "1.1.0",
+  "recorded_with": "fake/fake-deterministic-v1"
+}

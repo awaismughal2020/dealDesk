@@ -1,0 +1,22 @@
+SAMPLE RFP: Tenant self-service portal
+Issued by: Northfield Homes (FICTIONAL ORGANISATION, SAMPLE DATA)
+
+1. Background
+Northfield Homes is a fictional housing association managing around 4,000 homes. Tenants currently
+report repairs by phone. We want a self-service web portal.
+
+2. Requirements
+- The supplier shall deliver a responsive tenant web portal accessible to WCAG 2.2 AA.
+- The portal must let tenants report repairs with photos and track repair status.
+- The portal must show each tenant's rent account balance and recent transactions.
+- The supplier shall provide secure messaging between tenants and the housing team.
+- The portal must integrate with our housing management system through its REST API.
+- The supplier shall implement single sign-on for staff using our identity provider.
+- The supplier must provide an admin console for staff to manage content and users.
+- The supplier shall carry out user research and usability testing with tenants.
+
+3. Timeline
+We would like to start within one month and go live within four months.
+
+4. Evaluation
+Quality 60%, price 40%. Please include relevant experience.

@@ -1,0 +1,15 @@
+{
+  "_notice": "SAMPLE DATA. Fictional people. Weekly hours are availability net of other commitments.",
+  "members": [
+    {"id": "TM-01", "name": "Sample Delivery Lead A", "role": "delivery_lead", "weekly_hours": "20.0"},
+    {"id": "TM-02", "name": "Sample Architect A", "role": "solution_architect", "weekly_hours": "10.0"},
+    {"id": "TM-03", "name": "Sample Senior Engineer A", "role": "senior_engineer", "weekly_hours": "30.0"},
+    {"id": "TM-04", "name": "Sample Senior Engineer B", "role": "senior_engineer", "weekly_hours": "10.0"},
+    {"id": "TM-05", "name": "Sample Engineer A", "role": "engineer", "weekly_hours": "37.5"},
+    {"id": "TM-06", "name": "Sample Engineer B", "role": "engineer", "weekly_hours": "20.0"},
+    {"id": "TM-07", "name": "Sample Data Engineer A", "role": "data_engineer", "weekly_hours": "30.0"},
+    {"id": "TM-08", "name": "Sample ML Engineer A", "role": "ml_engineer", "weekly_hours": "15.0"},
+    {"id": "TM-09", "name": "Sample UX Designer A", "role": "ux_designer", "weekly_hours": "12.0"},
+    {"id": "TM-10", "name": "Sample QA Engineer A", "role": "qa_engineer", "weekly_hours": "20.0"}
+  ]
+}

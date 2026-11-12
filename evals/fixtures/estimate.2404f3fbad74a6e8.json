@@ -1,0 +1,41 @@
+{
+  "output": {
+    "assumptions": [
+      "Scope is limited to the requirements listed.",
+      "Client provides timely access to systems."
+    ],
+    "rationale": "Based on the actual hours of the most similar reference project (PP-001), scaled to 8 requirements against a baseline of 8.",
+    "reference_project_ids": [
+      "PP-001"
+    ],
+    "roles": [
+      {
+        "hours": "120",
+        "role": "delivery_lead"
+      },
+      {
+        "hours": "400",
+        "role": "engineer"
+      },
+      {
+        "hours": "140",
+        "role": "qa_engineer"
+      },
+      {
+        "hours": "320",
+        "role": "senior_engineer"
+      },
+      {
+        "hours": "80",
+        "role": "solution_architect"
+      },
+      {
+        "hours": "160",
+        "role": "ux_designer"
+      }
+    ]
+  },
+  "prompt_id": "estimate",
+  "prompt_version": "1.1.0",
+  "recorded_with": "fake/fake-deterministic-v1"
+}

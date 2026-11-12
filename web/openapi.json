@@ -1,0 +1,4178 @@
+{
+  "components": {
+    "schemas": {
+      "ApprovalOut": {
+        "additionalProperties": false,
+        "description": "A recorded human decision.",
+        "properties": {
+          "comment": {
+            "title": "Comment",
+            "type": "string"
+          },
+          "decided_at": {
+            "format": "date-time",
+            "title": "Decided At",
+            "type": "string"
+          },
+          "decided_by": {
+            "format": "uuid",
+            "title": "Decided By",
+            "type": "string"
+          },
+          "decided_by_name": {
+            "title": "Decided By Name",
+            "type": "string"
+          },
+          "decision": {
+            "enum": [
+              "approved",
+              "rejected"
+            ],
+            "title": "Decision",
+            "type": "string"
+          }
+        },
+        "required": [
+          "decision",
+          "decided_by",
+          "decided_by_name",
+          "comment",
+          "decided_at"
+        ],
+        "title": "ApprovalOut",
+        "type": "object"
+      },
+      "AssignmentOut": {
+        "additionalProperties": false,
+        "description": "Hours for one person in one week, and the share of their availability (1.0 = 100%).",
+        "properties": {
+          "capacity": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Capacity",
+            "type": "string"
+          },
+          "hours": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Hours",
+            "type": "string"
+          },
+          "member_id": {
+            "title": "Member Id",
+            "type": "string"
+          },
+          "utilisation": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Utilisation",
+            "type": "string"
+          },
+          "week_index": {
+            "title": "Week Index",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "member_id",
+          "week_index",
+          "hours",
+          "capacity",
+          "utilisation"
+        ],
+        "title": "AssignmentOut",
+        "type": "object"
+      },
+      "AuditEventOut": {
+        "additionalProperties": false,
+        "description": "One audit event.",
+        "properties": {
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "actor_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actor Id"
+          },
+          "details": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Details",
+            "type": "object"
+          },
+          "occurred_at": {
+            "format": "date-time",
+            "title": "Occurred At",
+            "type": "string"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          },
+          "seq": {
+            "title": "Seq",
+            "type": "integer"
+          },
+          "subject_id": {
+            "title": "Subject Id",
+            "type": "string"
+          },
+          "subject_type": {
+            "title": "Subject Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "seq",
+          "action",
+          "actor_id",
+          "subject_type",
+          "subject_id",
+          "occurred_at",
+          "request_id",
+          "details"
+        ],
+        "title": "AuditEventOut",
+        "type": "object"
+      },
+      "AuditPageOut": {
+        "additionalProperties": false,
+        "description": "A page of audit events, newest first.",
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AuditEventOut"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset"
+        ],
+        "title": "AuditPageOut",
+        "type": "object"
+      },
+      "Body_createRun": {
+        "properties": {
+          "file": {
+            "anyOf": [
+              {
+                "contentMediaType": "application/octet-stream",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Brief as PDF or UTF-8 text",
+            "title": "File"
+          },
+          "sample_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Or: id of a bundled SAMPLE brief",
+            "title": "Sample Id"
+          }
+        },
+        "title": "Body_createRun",
+        "type": "object"
+      },
+      "ClaimOut": {
+        "additionalProperties": false,
+        "description": "A cited relevant-experience claim.",
+        "properties": {
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Source Ids",
+            "type": "array"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text",
+          "source_ids"
+        ],
+        "title": "ClaimOut",
+        "type": "object"
+      },
+      "ClashOut": {
+        "additionalProperties": false,
+        "description": "A person booked above 100% in a week.",
+        "properties": {
+          "capacity": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Capacity",
+            "type": "string"
+          },
+          "hours": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Hours",
+            "type": "string"
+          },
+          "member_id": {
+            "title": "Member Id",
+            "type": "string"
+          },
+          "utilisation": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Utilisation",
+            "type": "string"
+          },
+          "week_index": {
+            "title": "Week Index",
+            "type": "integer"
+          },
+          "week_start": {
+            "format": "date",
+            "title": "Week Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "member_id",
+          "week_index",
+          "week_start",
+          "hours",
+          "capacity",
+          "utilisation"
+        ],
+        "title": "ClashOut",
+        "type": "object"
+      },
+      "CsrfOut": {
+        "additionalProperties": false,
+        "description": "A CSRF token (also set as the `dd_csrf` cookie).",
+        "properties": {
+          "csrf_token": {
+            "title": "Csrf Token",
+            "type": "string"
+          }
+        },
+        "required": [
+          "csrf_token"
+        ],
+        "title": "CsrfOut",
+        "type": "object"
+      },
+      "DecisionIn": {
+        "additionalProperties": false,
+        "description": "Approve or reject. A rejection must include a comment.",
+        "properties": {
+          "comment": {
+            "default": "",
+            "maxLength": 2000,
+            "title": "Comment",
+            "type": "string"
+          }
+        },
+        "title": "DecisionIn",
+        "type": "object"
+      },
+      "EstimateModelOut": {
+        "additionalProperties": false,
+        "description": "What the model proposed (validated).",
+        "properties": {
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Assumptions",
+            "type": "array"
+          },
+          "rationale": {
+            "title": "Rationale",
+            "type": "string"
+          },
+          "reference_project_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Reference Project Ids",
+            "type": "array"
+          },
+          "roles": {
+            "items": {
+              "$ref": "#/components/schemas/RoleHoursOut"
+            },
+            "title": "Roles",
+            "type": "array"
+          }
+        },
+        "required": [
+          "roles",
+          "rationale",
+          "reference_project_ids",
+          "assumptions"
+        ],
+        "title": "EstimateModelOut",
+        "type": "object"
+      },
+      "EstimateOut": {
+        "additionalProperties": false,
+        "description": "The accepted estimate.",
+        "properties": {
+          "hours_by_role": {
+            "additionalProperties": {
+              "description": "Decimal string computed by the server (GBP or hours)",
+              "type": "string"
+            },
+            "title": "Hours By Role",
+            "type": "object"
+          },
+          "model_output": {
+            "$ref": "#/components/schemas/EstimateModelOut"
+          },
+          "total_hours": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Total Hours",
+            "type": "string"
+          }
+        },
+        "required": [
+          "hours_by_role",
+          "total_hours",
+          "model_output"
+        ],
+        "title": "EstimateOut",
+        "type": "object"
+      },
+      "ExtractionOut": {
+        "additionalProperties": false,
+        "description": "Requirements after screening (quarantined items are shown, never used).",
+        "properties": {
+          "ambiguities": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Ambiguities",
+            "type": "array"
+          },
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
+          "quarantined": {
+            "items": {
+              "$ref": "#/components/schemas/RequirementOut"
+            },
+            "title": "Quarantined",
+            "type": "array"
+          },
+          "requirements": {
+            "items": {
+              "$ref": "#/components/schemas/RequirementOut"
+            },
+            "title": "Requirements",
+            "type": "array"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "summary",
+          "requirements",
+          "quarantined",
+          "ambiguities",
+          "flags"
+        ],
+        "title": "ExtractionOut",
+        "type": "object"
+      },
+      "HealthStatus": {
+        "additionalProperties": false,
+        "description": "Probe response.",
+        "properties": {
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "HealthStatus",
+        "type": "object"
+      },
+      "ImpactAssumptionsIn-Input": {
+        "additionalProperties": false,
+        "description": "Every input to the impact calculator. All are assumptions, not measurements.",
+        "properties": {
+          "baseline_hours": {
+            "$ref": "#/components/schemas/StepHoursIn-Input"
+          },
+          "bids_per_year": {
+            "maximum": 100000.0,
+            "minimum": 0.0,
+            "title": "Bids Per Year",
+            "type": "integer"
+          },
+          "cashable_share": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Cashable Share"
+          },
+          "fte_hours_per_year": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 10000.0,
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Fte Hours Per Year"
+          },
+          "hourly_cost": {
+            "anyOf": [
+              {
+                "maximum": 10000.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Hourly Cost"
+          },
+          "machine_hours": {
+            "$ref": "#/components/schemas/StepHoursIn-Input"
+          },
+          "review_hours": {
+            "$ref": "#/components/schemas/StepHoursIn-Input"
+          }
+        },
+        "required": [
+          "baseline_hours",
+          "machine_hours",
+          "review_hours",
+          "bids_per_year",
+          "hourly_cost",
+          "fte_hours_per_year",
+          "cashable_share"
+        ],
+        "title": "ImpactAssumptionsIn",
+        "type": "object"
+      },
+      "ImpactAssumptionsIn-Output": {
+        "additionalProperties": false,
+        "description": "Every input to the impact calculator. All are assumptions, not measurements.",
+        "properties": {
+          "baseline_hours": {
+            "$ref": "#/components/schemas/StepHoursIn-Output"
+          },
+          "bids_per_year": {
+            "maximum": 100000.0,
+            "minimum": 0.0,
+            "title": "Bids Per Year",
+            "type": "integer"
+          },
+          "cashable_share": {
+            "title": "Cashable Share",
+            "type": "string"
+          },
+          "fte_hours_per_year": {
+            "title": "Fte Hours Per Year",
+            "type": "string"
+          },
+          "hourly_cost": {
+            "title": "Hourly Cost",
+            "type": "string"
+          },
+          "machine_hours": {
+            "$ref": "#/components/schemas/StepHoursIn-Output"
+          },
+          "review_hours": {
+            "$ref": "#/components/schemas/StepHoursIn-Output"
+          }
+        },
+        "required": [
+          "baseline_hours",
+          "machine_hours",
+          "review_hours",
+          "bids_per_year",
+          "hourly_cost",
+          "fte_hours_per_year",
+          "cashable_share"
+        ],
+        "title": "ImpactAssumptionsIn",
+        "type": "object"
+      },
+      "ImpactMetricsOut": {
+        "additionalProperties": false,
+        "description": "Calculator output.",
+        "properties": {
+          "annual_hours_saved": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Annual Hours Saved",
+            "type": "string"
+          },
+          "annual_value_cashable": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Annual Value Cashable",
+            "type": "string"
+          },
+          "annual_value_full": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Annual Value Full",
+            "type": "string"
+          },
+          "assisted_hours_per_bid": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Assisted Hours Per Bid",
+            "type": "string"
+          },
+          "baseline_hours_per_bid": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Baseline Hours Per Bid",
+            "type": "string"
+          },
+          "fte_equivalent": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Fte Equivalent",
+            "type": "string"
+          },
+          "hours_saved_per_bid": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Hours Saved Per Bid",
+            "type": "string"
+          },
+          "notice": {
+            "title": "Notice",
+            "type": "string"
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/StepImpactOut"
+            },
+            "title": "Steps",
+            "type": "array"
+          }
+        },
+        "required": [
+          "steps",
+          "baseline_hours_per_bid",
+          "assisted_hours_per_bid",
+          "hours_saved_per_bid",
+          "annual_hours_saved",
+          "fte_equivalent",
+          "annual_value_full",
+          "annual_value_cashable",
+          "notice"
+        ],
+        "title": "ImpactMetricsOut",
+        "type": "object"
+      },
+      "ImpactOut": {
+        "additionalProperties": false,
+        "description": "Default assumptions, measured machine time, and the resulting metrics.",
+        "properties": {
+          "assumptions": {
+            "$ref": "#/components/schemas/ImpactAssumptionsIn-Output"
+          },
+          "measured_machine_hours": {
+            "additionalProperties": {
+              "description": "Decimal string computed by the server (GBP or hours)",
+              "type": "string"
+            },
+            "title": "Measured Machine Hours",
+            "type": "object"
+          },
+          "measured_steps": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Measured Steps",
+            "type": "array"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/ImpactMetricsOut"
+          }
+        },
+        "required": [
+          "assumptions",
+          "measured_machine_hours",
+          "measured_steps",
+          "metrics"
+        ],
+        "title": "ImpactOut",
+        "type": "object"
+      },
+      "LoginIn": {
+        "additionalProperties": false,
+        "description": "Sign-in form.",
+        "properties": {
+          "email": {
+            "maxLength": 320,
+            "minLength": 3,
+            "title": "Email",
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 256,
+            "minLength": 1,
+            "title": "Password",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "LoginIn",
+        "type": "object"
+      },
+      "MeOut": {
+        "additionalProperties": false,
+        "description": "The signed-in user and what the server will allow them to do (UI hints only).",
+        "properties": {
+          "auth_mode": {
+            "enum": [
+              "local",
+              "oidc"
+            ],
+            "title": "Auth Mode",
+            "type": "string"
+          },
+          "display_name": {
+            "title": "Display Name",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "permissions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Permissions",
+            "type": "array"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "display_name",
+          "role",
+          "permissions",
+          "auth_mode"
+        ],
+        "title": "MeOut",
+        "type": "object"
+      },
+      "MilestoneOut": {
+        "additionalProperties": false,
+        "description": "An invoice milestone.",
+        "properties": {
+          "due_date": {
+            "format": "date",
+            "title": "Due Date",
+            "type": "string"
+          },
+          "gross": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Gross",
+            "type": "string"
+          },
+          "net": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Net",
+            "type": "string"
+          },
+          "percentage": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Percentage",
+            "type": "string"
+          },
+          "sequence": {
+            "title": "Sequence",
+            "type": "integer"
+          },
+          "vat": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Vat",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sequence",
+          "percentage",
+          "due_date",
+          "net",
+          "vat",
+          "gross"
+        ],
+        "title": "MilestoneOut",
+        "type": "object"
+      },
+      "PersonOut": {
+        "additionalProperties": false,
+        "description": "Someone on the resource plan (SAMPLE roster).",
+        "properties": {
+          "member_id": {
+            "title": "Member Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "member_id",
+          "name",
+          "role"
+        ],
+        "title": "PersonOut",
+        "type": "object"
+      },
+      "PipelineRecordOut": {
+        "additionalProperties": false,
+        "description": "The mock CRM opportunity created on approval.",
+        "properties": {
+          "approved_at": {
+            "format": "date-time",
+            "title": "Approved At",
+            "type": "string"
+          },
+          "margin": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Margin",
+            "type": "string"
+          },
+          "stage": {
+            "title": "Stage",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "value": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "value",
+          "margin",
+          "stage",
+          "approved_at"
+        ],
+        "title": "PipelineRecordOut",
+        "type": "object"
+      },
+      "Problem": {
+        "additionalProperties": false,
+        "description": "RFC 9457 problem details.",
+        "properties": {
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail"
+          },
+          "errors": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Errors"
+          },
+          "instance": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instance"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          },
+          "status": {
+            "title": "Status",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "type": {
+            "default": "about:blank",
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "status"
+        ],
+        "title": "Problem",
+        "type": "object"
+      },
+      "ProposalOut": {
+        "additionalProperties": false,
+        "description": "The current draft (or final) proposal.",
+        "properties": {
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
+          "schedule": {
+            "$ref": "#/components/schemas/ScheduleOut"
+          },
+          "sections": {
+            "$ref": "#/components/schemas/SectionsOut"
+          },
+          "uncited_claim_indexes": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Uncited Claim Indexes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "sections",
+          "flags",
+          "uncited_claim_indexes",
+          "schedule"
+        ],
+        "title": "ProposalOut",
+        "type": "object"
+      },
+      "QuoteLineOut": {
+        "additionalProperties": false,
+        "description": "One role on the quote.",
+        "properties": {
+          "adjusted_hours": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Adjusted Hours",
+            "type": "string"
+          },
+          "cost": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Cost",
+            "type": "string"
+          },
+          "cost_rate": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Cost Rate",
+            "type": "string"
+          },
+          "hours": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Hours",
+            "type": "string"
+          },
+          "price": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Price",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "sell_rate": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Sell Rate",
+            "type": "string"
+          },
+          "subtotal": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Subtotal",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "hours",
+          "adjusted_hours",
+          "cost_rate",
+          "sell_rate",
+          "subtotal",
+          "cost",
+          "price"
+        ],
+        "title": "QuoteLineOut",
+        "type": "object"
+      },
+      "QuoteOut": {
+        "additionalProperties": false,
+        "description": "The code-computed quote.",
+        "properties": {
+          "contingency": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Contingency",
+            "type": "string"
+          },
+          "cost": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Cost",
+            "type": "string"
+          },
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/QuoteLineOut"
+            },
+            "title": "Lines",
+            "type": "array"
+          },
+          "margin": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Margin",
+            "type": "string"
+          },
+          "price": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Price",
+            "type": "string"
+          },
+          "price_gap_to_target": {
+            "anyOf": [
+              {
+                "description": "Decimal string computed by the server (GBP or hours)",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Gap To Target"
+          },
+          "subtotal": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Subtotal",
+            "type": "string"
+          },
+          "target_price": {
+            "anyOf": [
+              {
+                "description": "Decimal string computed by the server (GBP or hours)",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Price"
+          }
+        },
+        "required": [
+          "lines",
+          "subtotal",
+          "contingency",
+          "price",
+          "cost",
+          "margin",
+          "flags",
+          "target_price",
+          "price_gap_to_target"
+        ],
+        "title": "QuoteOut",
+        "type": "object"
+      },
+      "ReferenceOut": {
+        "description": "A retrieved SAMPLE project or case study.",
+        "properties": {
+          "actual_hours_by_role": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "description": "Decimal string computed by the server (GBP or hours)",
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actual Hours By Role"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "project",
+              "case_study"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "similarity": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Similarity",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "id",
+          "title",
+          "summary",
+          "similarity"
+        ],
+        "title": "ReferenceOut",
+        "type": "object"
+      },
+      "RequirementOut": {
+        "additionalProperties": false,
+        "description": "One extracted requirement.",
+        "properties": {
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "priority": {
+            "title": "Priority",
+            "type": "string"
+          },
+          "ref": {
+            "title": "Ref",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ref",
+          "text",
+          "category",
+          "priority"
+        ],
+        "title": "RequirementOut",
+        "type": "object"
+      },
+      "ResourcePlanOut": {
+        "additionalProperties": false,
+        "description": "Hours per person per week.",
+        "properties": {
+          "assignments": {
+            "items": {
+              "$ref": "#/components/schemas/AssignmentOut"
+            },
+            "title": "Assignments",
+            "type": "array"
+          },
+          "clashes": {
+            "items": {
+              "$ref": "#/components/schemas/ClashOut"
+            },
+            "title": "Clashes",
+            "type": "array"
+          },
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
+          "people": {
+            "items": {
+              "$ref": "#/components/schemas/PersonOut"
+            },
+            "title": "People",
+            "type": "array"
+          },
+          "unstaffed_hours": {
+            "additionalProperties": {
+              "description": "Decimal string computed by the server (GBP or hours)",
+              "type": "string"
+            },
+            "title": "Unstaffed Hours",
+            "type": "object"
+          },
+          "week_starts": {
+            "items": {
+              "format": "date",
+              "type": "string"
+            },
+            "title": "Week Starts",
+            "type": "array"
+          }
+        },
+        "required": [
+          "week_starts",
+          "people",
+          "assignments",
+          "clashes",
+          "unstaffed_hours",
+          "flags"
+        ],
+        "title": "ResourcePlanOut",
+        "type": "object"
+      },
+      "RoleHoursOut": {
+        "additionalProperties": false,
+        "description": "Model-proposed hours for one role.",
+        "properties": {
+          "hours": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Hours",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "hours"
+        ],
+        "title": "RoleHoursOut",
+        "type": "object"
+      },
+      "RunActionsOut": {
+        "additionalProperties": false,
+        "description": "What this user may do now. Usability hints; the server enforces every rule.",
+        "properties": {
+          "can_decide": {
+            "title": "Can Decide",
+            "type": "boolean"
+          },
+          "decide_blocked_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decide Blocked Reason"
+          }
+        },
+        "required": [
+          "can_decide",
+          "decide_blocked_reason"
+        ],
+        "title": "RunActionsOut",
+        "type": "object"
+      },
+      "RunDetailOut": {
+        "additionalProperties": false,
+        "description": "Everything about one run.",
+        "properties": {
+          "actions": {
+            "$ref": "#/components/schemas/RunActionsOut"
+          },
+          "approvals": {
+            "items": {
+              "$ref": "#/components/schemas/ApprovalOut"
+            },
+            "title": "Approvals",
+            "type": "array"
+          },
+          "brief_filename": {
+            "title": "Brief Filename",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "created_by": {
+            "format": "uuid",
+            "title": "Created By",
+            "type": "string"
+          },
+          "created_by_name": {
+            "title": "Created By Name",
+            "type": "string"
+          },
+          "current_step": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Step"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "estimate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EstimateOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "extraction": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtractionOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
+          "has_proposal_document": {
+            "title": "Has Proposal Document",
+            "type": "boolean"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "invoice_schedule": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ScheduleOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "is_final": {
+            "title": "Is Final",
+            "type": "boolean"
+          },
+          "margin": {
+            "anyOf": [
+              {
+                "description": "Decimal string computed by the server (GBP or hours)",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Margin"
+          },
+          "pipeline_record": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PipelineRecordOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "price": {
+            "anyOf": [
+              {
+                "description": "Decimal string computed by the server (GBP or hours)",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price"
+          },
+          "proposal": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProposalOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "quote": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/QuoteOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "references": {
+            "items": {
+              "$ref": "#/components/schemas/ReferenceOut"
+            },
+            "title": "References",
+            "type": "array"
+          },
+          "resource_plan": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResourcePlanOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "review_comment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Comment"
+          },
+          "revision_count": {
+            "title": "Revision Count",
+            "type": "integer"
+          },
+          "start_date": {
+            "format": "date",
+            "title": "Start Date",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/StepOut"
+            },
+            "title": "Steps",
+            "type": "array"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "status",
+          "created_by",
+          "created_by_name",
+          "created_at",
+          "updated_at",
+          "current_step",
+          "price",
+          "margin",
+          "flags",
+          "revision_count",
+          "is_final",
+          "brief_filename",
+          "start_date",
+          "error",
+          "review_comment",
+          "extraction",
+          "references",
+          "estimate",
+          "quote",
+          "resource_plan",
+          "proposal",
+          "has_proposal_document",
+          "steps",
+          "approvals",
+          "pipeline_record",
+          "invoice_schedule",
+          "actions"
+        ],
+        "title": "RunDetailOut",
+        "type": "object"
+      },
+      "RunListOut": {
+        "additionalProperties": false,
+        "description": "A page of runs.",
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RunSummaryOut"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset"
+        ],
+        "title": "RunListOut",
+        "type": "object"
+      },
+      "RunStatus": {
+        "description": "Lifecycle of a run.",
+        "enum": [
+          "queued",
+          "running",
+          "awaiting_approval",
+          "approved",
+          "failed"
+        ],
+        "title": "RunStatus",
+        "type": "string"
+      },
+      "RunSummaryOut": {
+        "additionalProperties": false,
+        "description": "A run in a list.",
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "created_by": {
+            "format": "uuid",
+            "title": "Created By",
+            "type": "string"
+          },
+          "created_by_name": {
+            "title": "Created By Name",
+            "type": "string"
+          },
+          "current_step": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Step"
+          },
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Flags",
+            "type": "array"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "is_final": {
+            "title": "Is Final",
+            "type": "boolean"
+          },
+          "margin": {
+            "anyOf": [
+              {
+                "description": "Decimal string computed by the server (GBP or hours)",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Margin"
+          },
+          "price": {
+            "anyOf": [
+              {
+                "description": "Decimal string computed by the server (GBP or hours)",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price"
+          },
+          "revision_count": {
+            "title": "Revision Count",
+            "type": "integer"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "status",
+          "created_by",
+          "created_by_name",
+          "created_at",
+          "updated_at",
+          "current_step",
+          "price",
+          "margin",
+          "flags",
+          "revision_count",
+          "is_final"
+        ],
+        "title": "RunSummaryOut",
+        "type": "object"
+      },
+      "SampleListOut": {
+        "additionalProperties": false,
+        "description": "Bundled SAMPLE briefs.",
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SampleOut"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "SampleListOut",
+        "type": "object"
+      },
+      "SampleOut": {
+        "additionalProperties": false,
+        "description": "A bundled SAMPLE brief.",
+        "properties": {
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description"
+        ],
+        "title": "SampleOut",
+        "type": "object"
+      },
+      "ScheduleOut": {
+        "additionalProperties": false,
+        "description": "Invoice milestones; each column sums exactly to its total.",
+        "properties": {
+          "gross_total": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Gross Total",
+            "type": "string"
+          },
+          "milestones": {
+            "items": {
+              "$ref": "#/components/schemas/MilestoneOut"
+            },
+            "title": "Milestones",
+            "type": "array"
+          },
+          "net_total": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Net Total",
+            "type": "string"
+          },
+          "vat_rate": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Vat Rate",
+            "type": "string"
+          },
+          "vat_total": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Vat Total",
+            "type": "string"
+          }
+        },
+        "required": [
+          "milestones",
+          "net_total",
+          "vat_total",
+          "gross_total",
+          "vat_rate"
+        ],
+        "title": "ScheduleOut",
+        "type": "object"
+      },
+      "SectionsOut": {
+        "additionalProperties": false,
+        "description": "Model-drafted proposal prose.",
+        "properties": {
+          "approach": {
+            "title": "Approach",
+            "type": "string"
+          },
+          "assumptions_and_exclusions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Assumptions And Exclusions",
+            "type": "array"
+          },
+          "executive_summary": {
+            "title": "Executive Summary",
+            "type": "string"
+          },
+          "relevant_experience": {
+            "items": {
+              "$ref": "#/components/schemas/ClaimOut"
+            },
+            "title": "Relevant Experience",
+            "type": "array"
+          },
+          "scope_and_deliverables": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scope And Deliverables",
+            "type": "array"
+          },
+          "team_and_timeline": {
+            "title": "Team And Timeline",
+            "type": "string"
+          },
+          "understanding": {
+            "title": "Understanding",
+            "type": "string"
+          }
+        },
+        "required": [
+          "executive_summary",
+          "understanding",
+          "scope_and_deliverables",
+          "approach",
+          "team_and_timeline",
+          "assumptions_and_exclusions",
+          "relevant_experience"
+        ],
+        "title": "SectionsOut",
+        "type": "object"
+      },
+      "SessionOut": {
+        "additionalProperties": false,
+        "description": "Returned after sign-in or refresh. Tokens are only ever in HttpOnly cookies.",
+        "properties": {
+          "access_expires_at": {
+            "format": "date-time",
+            "title": "Access Expires At",
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/MeOut"
+          }
+        },
+        "required": [
+          "user",
+          "access_expires_at"
+        ],
+        "title": "SessionOut",
+        "type": "object"
+      },
+      "StepHoursIn-Input": {
+        "additionalProperties": false,
+        "description": "Hours per step (assumptions).",
+        "properties": {
+          "estimate_and_costing": {
+            "anyOf": [
+              {
+                "maximum": 1000.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Estimate And Costing"
+          },
+          "extraction": {
+            "anyOf": [
+              {
+                "maximum": 1000.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Extraction"
+          },
+          "pipeline_and_invoice": {
+            "anyOf": [
+              {
+                "maximum": 1000.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Pipeline And Invoice"
+          },
+          "proposal_draft": {
+            "anyOf": [
+              {
+                "maximum": 1000.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Proposal Draft"
+          },
+          "resource_check": {
+            "anyOf": [
+              {
+                "maximum": 1000.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Resource Check"
+          }
+        },
+        "required": [
+          "extraction",
+          "estimate_and_costing",
+          "resource_check",
+          "proposal_draft",
+          "pipeline_and_invoice"
+        ],
+        "title": "StepHoursIn",
+        "type": "object"
+      },
+      "StepHoursIn-Output": {
+        "additionalProperties": false,
+        "description": "Hours per step (assumptions).",
+        "properties": {
+          "estimate_and_costing": {
+            "title": "Estimate And Costing",
+            "type": "string"
+          },
+          "extraction": {
+            "title": "Extraction",
+            "type": "string"
+          },
+          "pipeline_and_invoice": {
+            "title": "Pipeline And Invoice",
+            "type": "string"
+          },
+          "proposal_draft": {
+            "title": "Proposal Draft",
+            "type": "string"
+          },
+          "resource_check": {
+            "title": "Resource Check",
+            "type": "string"
+          }
+        },
+        "required": [
+          "extraction",
+          "estimate_and_costing",
+          "resource_check",
+          "proposal_draft",
+          "pipeline_and_invoice"
+        ],
+        "title": "StepHoursIn",
+        "type": "object"
+      },
+      "StepImpactOut": {
+        "additionalProperties": false,
+        "description": "By hand versus assisted for one step.",
+        "properties": {
+          "assisted_hours": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Assisted Hours",
+            "type": "string"
+          },
+          "baseline_hours": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Baseline Hours",
+            "type": "string"
+          },
+          "hours_saved": {
+            "description": "Decimal string computed by the server (GBP or hours)",
+            "title": "Hours Saved",
+            "type": "string"
+          },
+          "step": {
+            "enum": [
+              "extraction",
+              "estimate_and_costing",
+              "resource_check",
+              "proposal_draft",
+              "pipeline_and_invoice"
+            ],
+            "title": "Step",
+            "type": "string"
+          }
+        },
+        "required": [
+          "step",
+          "baseline_hours",
+          "assisted_hours",
+          "hours_saved"
+        ],
+        "title": "StepImpactOut",
+        "type": "object"
+      },
+      "StepOut": {
+        "additionalProperties": false,
+        "description": "One execution of a workflow step.",
+        "properties": {
+          "attempt": {
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Ms"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "step": {
+            "title": "Step",
+            "type": "string"
+          }
+        },
+        "required": [
+          "step",
+          "attempt",
+          "status",
+          "started_at",
+          "finished_at",
+          "duration_ms"
+        ],
+        "title": "StepOut",
+        "type": "object"
+      },
+      "UserCreateIn": {
+        "additionalProperties": false,
+        "description": "Admin: create a local user.",
+        "properties": {
+          "display_name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Display Name",
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 320,
+            "minLength": 3,
+            "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+            "title": "Email",
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 256,
+            "minLength": 1,
+            "title": "Password",
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          }
+        },
+        "required": [
+          "email",
+          "display_name",
+          "role",
+          "password"
+        ],
+        "title": "UserCreateIn",
+        "type": "object"
+      },
+      "UserListOut": {
+        "additionalProperties": false,
+        "description": "All users.",
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/UserOut"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "UserListOut",
+        "type": "object"
+      },
+      "UserOut": {
+        "additionalProperties": false,
+        "description": "A user as shown to admins.",
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "display_name": {
+            "title": "Display Name",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "display_name",
+          "role",
+          "is_active",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "UserOut",
+        "type": "object"
+      },
+      "UserPatchIn": {
+        "additionalProperties": false,
+        "description": "Admin: change a user's role or deactivate them.",
+        "properties": {
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/UserRole"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "title": "UserPatchIn",
+        "type": "object"
+      },
+      "UserRole": {
+        "description": "What a signed-in person may do. Permissions live in `dealdesk.auth.policy`.",
+        "enum": [
+          "viewer",
+          "estimator",
+          "approver",
+          "admin"
+        ],
+        "title": "UserRole",
+        "type": "string"
+      }
+    }
+  },
+  "info": {
+    "description": "Brief to approved, costed proposal, human in the loop. SAMPLE DATA ONLY.",
+    "title": "Deal Desk API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/healthz": {
+      "get": {
+        "description": "Liveness: the process is up.",
+        "operationId": "healthz",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthStatus"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Healthz",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/readyz": {
+      "get": {
+        "description": "Readiness: the database answers.",
+        "operationId": "readyz",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthStatus"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthStatus"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Readyz",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/v1/admin/users": {
+      "get": {
+        "description": "All users.",
+        "operationId": "listUsers",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserListOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "List Users",
+        "tags": [
+          "admin"
+        ]
+      },
+      "post": {
+        "description": "Create a local user. The password must meet the policy; it is stored only as Argon2id.",
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Create User",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/admin/users/{user_id}": {
+      "patch": {
+        "description": "Change role or active flag. Sessions are revoked so the change applies immediately.",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "User Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserPatchIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Update User",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/audit": {
+      "get": {
+        "description": "The append-only audit log, newest first, filterable.",
+        "operationId": "listAuditEvents",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "action",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 80,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action"
+            }
+          },
+          {
+            "in": "query",
+            "name": "actor_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Actor Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "subject_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 80,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subject Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "since",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Since"
+            }
+          },
+          {
+            "in": "query",
+            "name": "until",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Until"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuditPageOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Audit Log",
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/v1/auth/csrf": {
+      "get": {
+        "description": "Issue a CSRF token (double-submit cookie). Public: it grants nothing on its own.",
+        "operationId": "getCsrfToken",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CsrfOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Csrf",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/jwks.json": {
+      "get": {
+        "description": "Public signing keys (current and previous) so other services can verify our tokens.",
+        "operationId": "getJwks",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "items": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Getjwks",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Jwks",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/login": {
+      "post": {
+        "description": "Sign in with email and password (local mode). Sets HttpOnly session cookies.",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Sign-in failed"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "description": "Too many attempts"
+          }
+        },
+        "summary": "Login",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/logout": {
+      "post": {
+        "description": "Revoke the session on the server and clear the cookies.",
+        "operationId": "logout",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Logout",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/me": {
+      "get": {
+        "description": "Who is signed in.",
+        "operationId": "getMe",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Me",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/refresh": {
+      "post": {
+        "description": "Rotate the refresh token and issue a new access token. Reuse revokes the session family.",
+        "operationId": "refreshSession",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "description": "Refresh token invalid, expired or reused"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Refresh",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/impact": {
+      "get": {
+        "description": "Default assumptions with machine time measured from completed workflow steps.",
+        "operationId": "getImpact",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImpactOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Get Impact",
+        "tags": [
+          "impact"
+        ]
+      }
+    },
+    "/v1/impact/calculate": {
+      "post": {
+        "description": "Recalculate with the user's assumptions. Read-only; nothing is stored.",
+        "operationId": "calculateImpact",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImpactAssumptionsIn-Input"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImpactMetricsOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Calculate",
+        "tags": [
+          "impact"
+        ]
+      }
+    },
+    "/v1/runs": {
+      "get": {
+        "description": "Runs, newest first. Every role can read runs (team-wide visibility by design).",
+        "operationId": "listRuns",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/RunStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunListOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "List Runs",
+        "tags": [
+          "runs"
+        ]
+      },
+      "post": {
+        "description": "Upload a brief (or pick a sample) and start the workflow in the background.",
+        "operationId": "createRun",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_createRun"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunSummaryOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too large"
+          },
+          "415": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Unsupported type"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Create Run",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/v1/runs/{run_id}": {
+      "get": {
+        "description": "State, steps, quote, flags, resource plan, proposal, decisions and downstream records.",
+        "operationId": "getRun",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDetailOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Get Run",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/v1/runs/{run_id}/approve": {
+      "post": {
+        "description": "Approve exactly what is shown (price, margin, flags). Recorded with who, when and why.",
+        "operationId": "approveRun",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisionIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDetailOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "description": "Not an approver, or you created this run"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "description": "Not awaiting approval"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Approve",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/v1/runs/{run_id}/proposal.docx": {
+      "get": {
+        "description": "The latest proposal document (DRAFT until approved).",
+        "operationId": "downloadProposal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {}
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Download Proposal",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/v1/runs/{run_id}/reject": {
+      "post": {
+        "description": "Reject with a comment; the run returns to drafting with the comment.",
+        "operationId": "rejectRun",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecisionIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDetailOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "description": "Not an approver, or you created this run"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "description": "Not awaiting approval"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "Reject",
+        "tags": [
+          "runs"
+        ]
+      }
+    },
+    "/v1/samples": {
+      "get": {
+        "description": "Bundled SAMPLE briefs that can start a run.",
+        "operationId": "listSamples",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SampleListOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not signed in or session expired"
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden (role, separation of duties or CSRF)"
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Invalid request"
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests"
+          }
+        },
+        "summary": "List Samples",
+        "tags": [
+          "runs"
+        ]
+      }
+    }
+  }
+}

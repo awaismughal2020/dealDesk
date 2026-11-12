@@ -1,0 +1,16 @@
+{
+  "brief": "data/samples/clean_brief.txt",
+  "title_contains": "Tenant self-service portal",
+  "expected_requirements": [
+    "WCAG 2.2 AA",
+    "report repairs",
+    "rent account",
+    "secure messaging",
+    "housing management system",
+    "single sign-on",
+    "admin console",
+    "usability testing"
+  ],
+  "expect_injection_flag": false,
+  "min_ambiguities": 0
+}
