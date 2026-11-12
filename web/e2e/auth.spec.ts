@@ -4,7 +4,6 @@ import { credentials, signIn } from "./helpers";
 test("signing in, a generic error for bad credentials, and signing out", async ({ page }) => {
   await page.goto("/impact");
   await expect(page).toHaveURL(/\/login\?next=%2Fimpact$/);
-  await expect(page.getByText("SAMPLE DATA, NOT REAL CLIENT OR COMPANY DATA")).toBeVisible();
 
   const { email, password } = credentials("viewer");
   await signIn(page, email, "definitely-not-the-password");

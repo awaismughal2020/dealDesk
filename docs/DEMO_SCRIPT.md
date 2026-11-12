@@ -10,7 +10,7 @@ that a human approves. The model reads and writes; code computes every number. E
 see is SAMPLE data and runs offline with a deterministic model."
 
 **1:00 Sign in as the estimator (1 min).**
-1. Sign in with `DEMO_ESTIMATOR_EMAIL`. Point out the SAMPLE banner and the navigation (no Admin).
+1. Sign in with `DEMO_ESTIMATOR_EMAIL`. Point out the navigation (no Admin).
 2. Open **New run**. Show drag-and-drop with client checks (the server re-checks by content).
 
 **2:00 Clean brief (2 min).**

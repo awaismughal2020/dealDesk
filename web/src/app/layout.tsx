@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import type { ReactNode } from "react";
-import { SampleBanner } from "@/components/sample-banner";
 import { Providers } from "@/lib/providers";
 import "./globals.css";
 
@@ -22,7 +21,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         >
           Skip to content
         </a>
-        <SampleBanner />
         <Providers>{children}</Providers>
       </body>
     </html>
